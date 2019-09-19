@@ -1,0 +1,75 @@
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>{{title}}</h2>
+    </div>
+    <div class="row">   
+        <table class="table table-bordered">
+            <thead>
+                <tr class="text-center">
+                    <th scope="col" class="width-15 align-middle">Toppings</th>
+                    <th scope="col">
+                        Pizza Size
+                        <hr />
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col text-center align-middle border-right" *ngFor="let pizza of pizzas">
+                                    <span>{{pizza.name}} ({{pizza.price | currency}})</span>
+                                </div>
+                            </div>
+                        </div>
+                    </th>           
+                </tr>
+            </thead>
+            <tbody *ngFor="let toppingType of toppingTypes">        
+                <tr class="bg-secondary">
+                    <td colspan="2">
+                        <span>{{toppingType.type}}</span>                            
+                    </td>
+                </tr>
+                <ng-container *ngFor="let topping of toppings">
+                    <tr *ngIf="topping.typeID == toppingType.typeID">
+                        <td class="align-middle">{{topping.name}} ({{topping.price | currency}})</td>
+                        <td>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col text-center align-middle border-right" *ngFor="let pizza of pizzas">
+                                        <input type="checkbox" (click)="onToppingSelect(pizza.id, topping.id, $event)" />
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>                    
+            </tbody>
+            <tfoot>
+                <tr class="bg-primary">
+                    <th colspan="2">
+                        <span>Total</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th class="align-middle">Offer</th>
+                    <td>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col text-center align-middle border-right" *ngFor="let pizza of pizzas" [innerHTML]="getOfferMarkup(pizza.id)">                                     
+                                </div>
+                            </div>                            
+                        </div>                          
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col text-center align-middle border-right" *ngFor="let pizza of pizzas" [innerHTML]="getPizzaTotalMarkup(pizza.id)">                                                                         
+                                </div>
+                            </div>                            
+                        </div>      
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>    
+</div>
